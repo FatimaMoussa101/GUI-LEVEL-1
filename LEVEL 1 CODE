@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Main {
+    private JFrame frame;
+    private JTextField textField;
+    private JLabel resultLabel;
+
+    public void  IntegerVerificationApp() {
+        createGUI();
+    }
+
+    private void createGUI() {
+        frame = new JFrame("Integer Verification");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(20, 20));
+
+        textField = new JTextField(10);
+        panel.add(textField);
+
+        JButton verifyButton = new JButton("Verify");
+        verifyButton.addActionListener(new VerifyButtonListener());
+        panel.add(verifyButton);
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new CancelButtonListener());
+        panel.add(cancelButton);
+
+        resultLabel = new JLabel("");
+        panel.add(resultLabel);
+
+        frame.getContentPane().add(panel);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private class VerifyButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            String input = textField.getText();
+
+            try {
+                int number = Integer.parseInt(input);
+                resultLabel.setText(number +    " is a valid integer.");
+            } catch (NumberFormatException e) {
+                resultLabel.setText("Invalid entry. Please enter an integer.");
+            }
+        }
+    }
+
+    private class CancelButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            frame.dispose(); // Close the window
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new IntegerVerificationApp();
+            }
+        });
+    }
+}
